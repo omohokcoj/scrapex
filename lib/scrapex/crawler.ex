@@ -33,10 +33,10 @@ defmodule Scrapex.Crawler do
         trigger_callback(:after_pause)
       end
 
-      def continue do
-        trigger_callback(:before_continue)
+      def resume do
+        trigger_callback(:before_resume)
 
-        trigger_callback(:after_continue)
+        trigger_callback(:after_resume)
       end
 
       def restart do
@@ -48,14 +48,14 @@ defmodule Scrapex.Crawler do
         enqueue(:process_data, data)
       end
 
-      def yield(parser, data) do
-        enqueue(parser, data)
+      def yield(parser_name, data) do
+        enqueue(parser_name, data)
       end
 
       def enqueue(parser_name, data \\ %{}) do
-        trigger_callback(:parse_start)
-        Exq.enqueue(Exq, queue_name(), worker_module(), [parser_name, data], max_retries: 0)
-        trigger_callback(:parse_start)
+        trigger_callback(:before_parse_start)
+        Exq.enqueue(Exq, queue_name(), worker_module(), [__MODULE__, parser_name, data])
+        trigger_callback(:after_parse_complete)
       end
     end
   end

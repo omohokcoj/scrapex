@@ -1,8 +1,9 @@
 defmodule Scrapex.Crawler.Callbacks do
   @callbacks [:before_start, :after_start, :before_pause,
               :after_pause, :before_terminate, :after_terminate,
-              :before_continue, :after_continue, :after_complete,
-              :before_parse_start, :after_parse_start, :after_parse_complete]
+              :before_resume, :after_resume, :after_complete,
+              :before_parse_start, :after_parse_start,
+              :after_parse_complete, :before_parse_complete]
 
   defmacro __using__(_) do
     quote do
