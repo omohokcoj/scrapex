@@ -1,7 +1,7 @@
 defmodule Scrapex.Crawler do
-  defmacro __using__(_) do
+  defmacro __using__(opts \\ []) do
     quote do
-      use Scrapex.Crawler.Helpers
+      use Scrapex.Crawler.Options, unquote(opts)
       use Scrapex.Crawler.Callbacks
       use Scrapex.Crawler.Middleware
 
@@ -44,13 +44,17 @@ defmodule Scrapex.Crawler do
         start()
       end
 
+      def send_data(data) do
+        enqueue(:process_data, data)
+      end
+
       def yield(parser, data) do
         enqueue(parser, data)
       end
 
       def enqueue(parser_name, data \\ %{}) do
         trigger_callback(:parse_start)
-        Exq.enqueue(Exq, queue_name(), worker_module(), [parser_name, data])
+        Exq.enqueue(Exq, queue_name(), worker_module(), [parser_name, data], max_retries: 0)
         trigger_callback(:parse_start)
       end
     end
