@@ -1,11 +1,14 @@
 # Scrapex
 
-**TODO: Add description**
+Fast and robust web crawling tool in Elixir.
+Powered by job processing library - [Exq](https://github.com/akira/exq)
+
+## Features
+- Minimal and easy to use DSL - [examples](https://github.com/omohokcoj/scrapex/blob/master/guides/EXAMPLES.md).
+- PhantomJS rendering via [Hound](https://github.com/HashNuke/hound).
+- Queue, concurrent processing, retries, fault-tolerance - all thanks to Exq and Elixir/OTP.
 
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `scrapex` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -14,8 +17,3 @@ def deps do
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/scrapex](https://hexdocs.pm/scrapex).
-

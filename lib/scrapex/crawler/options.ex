@@ -1,6 +1,16 @@
 defmodule Scrapex.Crawler.Options do
-  @available_options [:crawler_name, :queue_name, :queue_size, :max_retries,
-                      :interval, :timeout, :worker_module, :start_url, :browser]
+  @available_options [
+    :crawl_queue_name,
+    :crawl_queue_size,
+    :crawl_worker,
+    :crawler_name,
+    :data_queue_name,
+    :data_queue_size,
+    :data_worker,
+    :max_retries,
+    :start_function,
+    :start_url
+  ]
 
   defmacro __using__(opts) do
     quote do
@@ -8,20 +18,23 @@ defmodule Scrapex.Crawler.Options do
 
       @before_compile unquote(__MODULE__)
 
-      @default_queue_size    10
-      @default_max_retries   10
-      @default_interval      10_000
-      @default_timeout       10_000
-      @default_worker_module Scrapex.Worker
+      @default_crawl_queue_size 10
+      @default_data_queue_size  100
+      @default_max_retries      3
+      @default_crawl_worker     Scrapex.CrawlWorker
+      @default_data_worker      Scrapex.DataWorker
+      @start_function           :start
 
       @default_options [
-        crawler_name:  inspect(__MODULE__),
-        queue_name:    Macro.underscore(__MODULE__),
-        queue_size:    Application.get_env(:scrapex, :queue_size,    @default_queue_size),
-        interval:      Application.get_env(:scrapex, :interval,      @default_interval),
-        timeout:       Application.get_env(:scrapex, :timeout,       @default_timeout),
-        max_retries:   Application.get_env(:scrapex, :max_retries,   @default_max_retries),
-        worker_module: Application.get_env(:scrapex, :worker_module, @default_worker_module),
+        crawler_name:     inspect(__MODULE__),
+        crawl_queue_name: Macro.underscore(__MODULE__),
+        data_queue_name:  Macro.underscore(__MODULE__),
+        max_retries:      Application.get_env(:scrapex, :max_retries,         @default_max_retries),
+        crawl_queue_size: Application.get_env(:scrapex, :crawl_queue_size,    @default_crawl_queue_size),
+        crawl_worker:     Application.get_env(:scrapex, :crawl_worker_module, @default_crawl_worker),
+        data_queue_size:  Application.get_env(:scrapex, :data_queue_size,     @default_data_queue_size),
+        data_worker:      Application.get_env(:scrapex, :data_worker_module,  @default_data_worker),
+        start_function:   Application.get_env(:scrapex, :start_function,      @start_function)
       ]
 
       @options Keyword.merge(@default_options, unquote(opts))
@@ -45,8 +58,7 @@ defmodule Scrapex.Crawler.Options do
 
   defp compile_options do
     quote do
-      def options,         do: @options
-      def default_options, do: @default_options
+      def options, do: @options
     end
   end
 

@@ -19,11 +19,9 @@ defmodule Scrapex.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 0.10.0"},
-      {:floki, "~> 0.14.0"},
-      {:sweet_xml, "~> 0.6"},
-      {:hound, "~> 1.0"},
       {:exq, "~> 0.9.0"},
+      {:httpoison, "~> 0.10.0", optional: true},
+      {:hound, "~> 1.0" , optional: true},
       {:credo, "~> 0.5", only: :dev},
       {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
     ]
