@@ -1,10 +1,10 @@
 # Scrapex
 
-Fast and robust web crawling tool in Elixir.
+Fast and robust web crawling/scraping tool in Elixir.
 Powered by job processing library - [Exq](https://github.com/akira/exq)
 
 ## Features
-- Minimal and easy to use DSL - [examples](https://github.com/omohokcoj/scrapex/blob/master/guides/EXAMPLES.md).
+- Minimal and easy to use DSL - [examples](https://github.com/omohokcoj/scrapex/blob/master/guides/examples.md).
 - PhantomJS rendering via [Hound](https://github.com/HashNuke/hound).
 - Queue, concurrent processing, retries, fault-tolerance - all thanks to Exq and Elixir/OTP.
 
